@@ -267,6 +267,8 @@ class SearchField<T> extends StatefulWidget {
   /// text capitalization defaults to [TextCapitalization.none]
   final TextCapitalization textCapitalization;
 
+  final Material Function({required Widget child})? suggestionBuilder;
+
   SearchField(
       {Key? key,
       required this.suggestions,
@@ -300,6 +302,7 @@ class SearchField<T> extends StatefulWidget {
       this.textCapitalization = TextCapitalization.none,
       this.textInputAction,
       this.validator,
+      this.suggestionBuilder,
       @Deprecated('use `onSearchTextChanged` instead.') this.comparator})
       : assert(
             (initialValue != null &&
@@ -622,9 +625,14 @@ class _SearchFieldState<T> extends State<SearchField<T>> {
                 left: offset.dx,
                 width: textFieldsize.width,
                 child: CompositedTransformFollower(
-                    offset: widget.offset ?? yOffset,
-                    link: _layerLink,
-                    child: Material(child: _suggestionsBuilder())),
+                  offset: widget.offset ?? yOffset,
+                  link: _layerLink,
+                  child: widget.suggestionBuilder != null
+                      ? widget.suggestionBuilder!(child: _suggestionsBuilder())
+                      : Material(
+                          child: _suggestionsBuilder(),
+                        ),
+                ),
               );
             }));
   }
