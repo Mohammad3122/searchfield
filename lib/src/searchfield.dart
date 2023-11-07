@@ -267,7 +267,7 @@ class SearchField<T> extends StatefulWidget {
   /// text capitalization defaults to [TextCapitalization.none]
   final TextCapitalization textCapitalization;
 
-  final Material Function({required Widget child})? suggestionBuilder;
+  final Material Function(Widget child)? suggestionBuilder;
 
   SearchField(
       {Key? key,
@@ -628,7 +628,7 @@ class _SearchFieldState<T> extends State<SearchField<T>> {
                   offset: widget.offset ?? yOffset,
                   link: _layerLink,
                   child: widget.suggestionBuilder != null
-                      ? widget.suggestionBuilder!(child: _suggestionsBuilder())
+                      ? widget.suggestionBuilder!(_suggestionsBuilder())
                       : Material(
                           child: _suggestionsBuilder(),
                         ),
